@@ -1,24 +1,499 @@
-# Compiled class file
-*.class
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shree Siddhi Travels - Mumbai to Tambaldeg Booking</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --secondary: #d97706;
+      --bg: #f8fafc;
+      --text: #1e293b;
+      --available: #e2e8f0;
+      --male: #3b82f6;
+      --female: #ec4899;
+      --selected: #22c55e;
+    }
 
-# Log file
-*.log
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-# BlueJ files
-*.ctxt
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 40px;
+    }
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #0f172a);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+    header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+    header p {
+      color: #cbd5e1;
+      font-size: 1rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 850px) {
+      .grid-layout {
+        grid-template-columns: 1.2fr 1fr;
+      }
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+
+    /* Bus Layout Styling */
+    .bus-container {
+      background: #f1f5f9;
+      border: 3px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 20px 15px;
+      max-width: 340px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .steering {
+      text-align: right;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      padding-right: 10px;
+    }
+
+    .bus-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .bus-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 30px 1fr 1fr;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .last-row {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+    }
+
+    .seat {
+      height: 42px;
+      border-radius: 6px;
+      background-color: var(--available);
+      border: 1px solid #94a3b8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    .seat:hover {
+      transform: scale(1.05);
+    }
+
+    .seat.selected-male {
+      background-color: var(--male);
+      color: white;
+      border-color: #1d4ed8;
+    }
+
+    .seat.selected-female {
+      background-color: var(--female);
+      color: white;
+      border-color: #be185d;
+    }
+
+    .seat-legend {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 15px;
+      font-size: 0.85rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .legend-box {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+    }
+
+    /* Summary & Payment Styling */
+    .summary-details p {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .total-price {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: var(--secondary);
+      border-top: 1px dashed #cbd5e1;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+
+    .payment-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .qr-code {
+      margin: 10px 0;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: var(--secondary);
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .btn-submit:hover {
+      background-color: #b45309;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Shree Siddhi Travels</h1>
+    <p>Mumbai ↔ Tambaldeg 2×2 AC Pushback Express (49 Seats)</p>
+  </header>
+
+  <div class="container">
+    <div class="grid-layout">
+      
+      <!-- LEFT COLUMN: Route & Seat Selection -->
+      <div>
+        <!-- Journey Details -->
+        <div class="card">
+          <h2>1. Select Journey & Route</h2>
+          
+          <div class="form-group">
+            <label for="tripType">Trip Type</label>
+            <select id="tripType" onchange="updateTripOptions()">
+              <option value="outbound">Mumbai to Tambaldeg</option>
+              <option value="return">Tambaldeg to Mumbai (Return)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="travelDate">Travel Date & Time</label>
+            <select id="travelDate">
+              <!-- Options populated dynamically -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="boardingPoint">Boarding Point</label>
+            <select id="boardingPoint"></select>
+          </div>
+
+          <div class="form-group">
+            <label for="droppingPoint">Dropping Point</label>
+            <select id="droppingPoint"></select>
+          </div>
+        </div>
+
+        <!-- Bus Seat Layout -->
+        <div class="card">
+          <h2>2. Select Seats</h2>
+          
+          <div class="form-group">
+            <label>Passenger Gender (for selected seat):</label>
+            <div style="display: flex; gap: 20px; margin-top: 5px;">
+              <label style="font-weight: normal;"><input type="radio" name="gender" value="male" checked> Male</label>
+              <label style="font-weight: normal;"><input type="radio" name="gender" value="female"> Female</label>
+            </div>
+          </div>
+
+          <div class="bus-container">
+            <div class="steering">☸️ Driver</div>
+            <div class="bus-grid" id="busGrid">
+              <!-- Seats generated by JavaScript -->
+            </div>
+          </div>
+
+          <div class="seat-legend">
+            <div class="legend-item"><div class="legend-box" style="background: var(--available); border:1px solid #94a3b8;"></div> Available</div>
+            <div class="legend-item"><div class="legend-box" style="background: var(--male);"></div> Male</div>
+            <div class="legend-item"><div class="legend-box" style="background: var(--female);"></div> Female</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Booking Summary & Payment -->
+      <div>
+        <div class="card">
+          <h2>3. Booking Summary</h2>
+          <div class="summary-details">
+            <p><span>Selected Seats:</span> <strong id="summarySeats">None</strong></p>
+            <p><span>Total Passengers:</span> <strong id="summaryCount">0</strong></p>
+            <p><span>Ticket Rate:</span> <strong>₹2,000 / seat</strong></p>
+            <p class="total-price"><span>Total Amount:</span> <span id="summaryTotal">₹0</span></p>
+          </div>
+
+          <div class="payment-box">
+            <h3>Google Pay Payment</h3>
+            <p style="font-size: 0.85rem; color: #475569; margin-top: 4px;">Pay directly using UPI / Google Pay</p>
+            <p style="font-weight: bold; font-size: 1.1rem; color: #0f172a; margin-top: 8px;">GPay No: 9405264461</p>
+            
+            <div class="qr-code" id="qrContainer">
+              <!-- QR Code generated dynamically -->
+            </div>
+            <p style="font-size: 0.8rem; color: #64748b;">Scan QR Code using Google Pay or PhonePe</p>
+          </div>
+
+          <div class="form-group" style="margin-top: 15px;">
+            <label for="passengerName">Primary Passenger Name</label>
+            <input type="text" id="passengerName" placeholder="Enter full name">
+          </div>
+
+          <div class="form-group">
+            <label for="passengerPhone">Contact Number</label>
+            <input type="tel" id="passengerPhone" placeholder="Enter mobile number">
+          </div>
+
+          <button class="btn-submit" onclick="confirmBooking()">Confirm & Book Ticket</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Route Data Definitions
+    const mumbaiPoints = ["Bhandup", "Kalwa", "Airoli", "Panvel"];
+    const konkanPoints = ["Nandgaon", "Shirgav", "Lingdal Titha", "Talebajar", "Jamsande", "Dabhole", "Dahibav", "Mithbav", "Tambaldeg", "Tarele"];
+
+    const tripSchedules = {
+      outbound: {
+        dates: [
+          "11 September - 06:00 PM (From Bhandup)",
+          "12 September - 03:00 PM (From Bhandup)"
+        ],
+        boarding: mumbaiPoints,
+        dropping: konkanPoints
+      },
+      return: {
+        dates: [
+          "19 September - 03:00 PM (From Tambaldeg)",
+          "26 September - 03:00 PM (From Tambaldeg)"
+        ],
+        boarding: konkanPoints,
+        dropping: mumbaiPoints
+      }
+    };
+
+    let selectedSeats = {}; // Format: { seatNum: 'male' | 'female' }
+    const TICKET_PRICE = 2000;
+
+    // Initialize Page
+    window.onload = () => {
+      renderBusSeats();
+      updateTripOptions();
+    };
+
+    function updateTripOptions() {
+      const tripType = document.getElementById('tripType').value;
+      const config = tripSchedules[tripType];
+
+      // Update Dates
+      const dateSelect = document.getElementById('travelDate');
+      dateSelect.innerHTML = config.dates.map(d => `<option value="${d}">${d}</option>`).join('');
+
+      // Update Boarding Points
+      const boardingSelect = document.getElementById('boardingPoint');
+      boardingSelect.innerHTML = config.boarding.map(p => `<option value="${p}">${p}</option>`).join('');
+
+      // Update Dropping Points
+      const droppingSelect = document.getElementById('droppingPoint');
+      droppingSelect.innerHTML = config.dropping.map(p => `<option value="${p}">${p}</option>`).join('');
+    }
+
+    // Render 49 Seats: 11 rows of 2x2 (44 seats) + 1 last row of 5 straight seats
+    function renderBusSeats() {
+      const busGrid = document.getElementById('busGrid');
+      busGrid.innerHTML = '';
+
+      let seatCounter = 1;
+
+      // First 11 Rows (4 seats per row = 44)
+      for (let r = 1; r <= 11; r++) {
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'bus-row';
+
+        for (let c = 1; c <= 4; c++) {
+          if (c === 3) {
+            // Aisle space
+            const aisle = document.createElement('div');
+            rowDiv.appendChild(aisle);
+          }
+          const seatNum = seatCounter++;
+          rowDiv.appendChild(createSeatElement(seatNum));
+        }
+        busGrid.appendChild(rowDiv);
+      }
+
+      // Last Row (5 seats in straight line = 49 total)
+      const lastRowDiv = document.createElement('div');
+      lastRowDiv.className = 'bus-row last-row';
+      for (let c = 1; c <= 5; c++) {
+        const seatNum = seatCounter++;
+        lastRowDiv.appendChild(createSeatElement(seatNum));
+      }
+      busGrid.appendChild(lastRowDiv);
+    }
+
+    function createSeatElement(seatNum) {
+      const seat = document.createElement('div');
+      seat.className = 'seat';
+      seat.id = `seat-${seatNum}`;
+      seat.innerText = seatNum;
+      seat.onclick = () => toggleSeat(seatNum);
+      return seat;
+    }
+
+    function toggleSeat(seatNum) {
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+      const seatEl = document.getElementById(`seat-${seatNum}`);
+
+      if (selectedSeats[seatNum]) {
+        delete selectedSeats[seatNum];
+        seatEl.className = 'seat';
+      } else {
+        selectedSeats[seatNum] = gender;
+        seatEl.className = `seat selected-${gender}`;
+      }
+
+      updateSummary();
+    }
+
+    function updateSummary() {
+      const seatKeys = Object.keys(selectedSeats).map(Number).sort((a, b) => a - b);
+      const count = seatKeys.length;
+      const total = count * TICKET_PRICE;
+
+      document.getElementById('summarySeats').innerText = seatKeys.length ? seatKeys.join(', ') : 'None';
+      document.getElementById('summaryCount').innerText = count;
+      document.getElementById('summaryTotal').innerText = `₹${total.toLocaleString('en-IN')}`;
+
+      updateQRCode(total);
+    }
+
+    function updateQRCode(amount) {
+      const qrContainer = document.getElementById('qrContainer');
+      if (amount > 0) {
+        const upiUrl = `upi://pay?pa=9405264461@upi&pn=Shree%20Siddhi%20Travels&am=${amount}&cu=INR`;
+        qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(upiUrl)}" alt="GPay QR Code" />`;
+      } else {
+        qrContainer.innerHTML = `<div style="height:150px; display:flex; align-items:center; justify-content:center; background:#e2e8f0; color:#64748b; border-radius:8px;">Select seats to generate QR</div>`;
+      }
+    }
+
+    function confirmBooking() {
+      const name = document.getElementById('passengerName').value.trim();
+      const phone = document.getElementById('passengerPhone').value.trim();
+      const seatKeys = Object.keys(selectedSeats);
+
+      if (seatKeys.length === 0) {
+        alert('Please select at least one seat.');
+        return;
+      }
+      if (!name || !phone) {
+        alert('Please provide primary passenger name and contact number.');
+        return;
+      }
+
+      const totalAmount = seatKeys.length * TICKET_PRICE;
+      const tripDetail = document.getElementById('travelDate').value;
+      const boarding = document.getElementById('boardingPoint').value;
+      const dropping = document.getElementById('droppingPoint').value;
+
+      alert(`Booking Details Recorded!\n\nName: ${name}\nPhone: ${phone}\nSchedule: ${tripDetail}\nRoute: ${boarding} to ${dropping}\nSeats: ${seatKeys.join(', ')}\nTotal: ₹${totalAmount}\n\nPlease complete GPay payment to 9405264461 to confirm.`);
+    }
+  </script>
+</body>
+</html>
